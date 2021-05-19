@@ -2,15 +2,23 @@ package main
 
 import (
 	"fmt"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	http.HandleFunc("/", handler)
+	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 func handler(w http.ResponseWriter, r *http.Request) {
+	Hostnam, err := os.Hostname()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(w, "Instance = %q\n", []byte(Hostnam))
 	fmt.Fprintf(w, "Host = %q\n", r.Host)
 	fmt.Fprintf(w, "RemoteAddr = %q\n\n", r.RemoteAddr)
 	fmt.Fprintf(w, "Proto = %s\n", r.Proto)
