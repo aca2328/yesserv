@@ -1,0 +1,4 @@
+{{- define "mychart.labels" }}
+  labels:
+    app: gslb
+{{- end }}
