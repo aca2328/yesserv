@@ -11,6 +11,6 @@ docker run -ti --rm -p 8000:8000 yesserv
 
 # run from dockerhub
 ```
-docker push aca2328/yesserv:latest
+docker pull aca2328/yesserv:latest
 docker run -ti --rm -p 8000:8000 aca2328/yesserv
 ```
