@@ -14,3 +14,9 @@ docker run -ti --rm -p 8000:8000 yesserv
 docker pull aca2328/yesserv:latest
 docker run -ti --rm -p 8000:8000 aca2328/yesserv
 ```
+
+# helm deployment
+```
+helm install yeschart yesserv/chart/ --dry-run
+helm install yeschart yesserv/chart/
+```
