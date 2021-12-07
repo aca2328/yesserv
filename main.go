@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -18,29 +19,28 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(w, "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td, th {border: 2px solid;text-align: left;padding: 2px;}tr:nth-child(even) {background-color: #9999;}</style></head><body>")
+	fmt.Fprintf(w, "<!DOCTYPE html><html><head><style>table {font-family: arial;border-collapse: collapse;width: 100%;font-size: 10px}td, th {border: 2px solid #FFFFE0;text-align: left;padding: 4px;}tr:nth-child(even) {background-color: #20B2AA;}tr:nth-child(odd) {background-color: #6495ED;}</style></head><body>")
 	fmt.Fprintf(w, "<h1>YESSERV v2</h1>")
-	fmt.Fprintf(w, "<table><tr><th>Element</th><th>Value</th></tr>")
-	fmt.Fprintf(w, "<table><tr><th>Instance name</th><th>%q</th></tr>", []byte(Hostnam), "</th></tr>")
-	fmt.Fprintf(w, "</table>")
-	fmt.Fprintf(w, "<p>Instance = %q</p>", []byte(Hostnam))
-	fmt.Fprintf(w, "Host = %q\n", r.Host)
-	fmt.Fprintf(w, "RemoteAddr = %q\n\n", r.RemoteAddr)
-	fmt.Fprintf(w, "Proto = %s\n", r.Proto)
-	fmt.Fprintf(w, "Method = %s\n", r.Method)
-	fmt.Fprintf(w, "URL = %s\n", r.URL)
-	fmt.Fprintf(w, "RequestURI = %s\n\n", r.RequestURI)
-	fmt.Fprintf(w, "Trailer = %s\n\n", r.Trailer)
-	//Iterate over all header fields
+	//proceed with HTTP parameters
+	fmt.Fprintf(w, "<table><tr><th>HTTP parameter</th><th>Value</th></tr>")
+	fmt.Fprintf(w, "<tr><th>Container Instance name</th><th>%q</th></tr>", []byte(Hostnam))
+	fmt.Fprintf(w, "<tr><th>Host Header</th><th>%q</th></tr>", r.Host)
+	fmt.Fprintf(w, "<tr><th>Remote Address</th><th>%q</th></tr>", r.RemoteAddr)
+	fmt.Fprintf(w, "<tr><th>Protocol version</th><th>%s</th></tr>", r.Proto)
+	fmt.Fprintf(w, "<tr><th>Method</th><th>%s</th></tr>", r.Method)
+	fmt.Fprintf(w, "<tr><th>URI</th><th>%s</th></tr>", r.URL)
+	fmt.Fprintf(w, "<tr><th>Request(original) URI</th><th>%s</th></tr>", r.RequestURI)
+	fmt.Fprintf(w, "<tr><th>Trailer</th><th>%s</th></tr>", r.Trailer)
+	fmt.Fprintf(w, "<tr><th>ContentLength</th><th>%d</th></tr>", r.ContentLength)
+	fmt.Fprintf(w, "<tr><th>TransferEncoding</th><th>%s</th></tr>", r.TransferEncoding)
+	fmt.Fprintf(w, "<tr><th>Close</th><th>%v</th></tr>", r.Close)
+	fmt.Fprintf(w, "<tr><th>Form Data</th><th>%s</th></tr>", r.Form)
+	fmt.Fprintf(w, "</table><hr><table>")
+	//Iterate over all HTTP header fields
 	for k, v := range r.Header {
-		fmt.Fprintf(w, "Header: %q, Value: %q\n", k, v)
+		fmt.Fprintf(w, "<tr><th>%q</th><th>%q</th></tr>", k, v)
 	}
-	fmt.Fprintf(w, "\n\n")
-	fmt.Fprintf(w, "ContentLength = %d\n", r.ContentLength)
-	fmt.Fprintf(w, "TransferEncoding = %s\n", r.TransferEncoding)
-	fmt.Fprintf(w, "Close = %v\n\n", r.Close)
-	fmt.Fprintf(w, "Form = %s\n\n", r.Form)
-	fmt.Fprintf(w, "\n\n")
-	fmt.Fprintf(w, "Body = %s\n\n", r.Body)
-	fmt.Fprintf(w, "</body></html>")
+	fmt.Fprintf(w, "</table><hr><table>")
+	fmt.Fprintf(w, "<tr><th>Body</th><th>%s</th></tr>", r.Body)
+	fmt.Fprintf(w, "</table></body></html>")
 }
