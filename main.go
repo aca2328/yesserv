@@ -18,6 +18,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Fprintf(w, "<!DOCTYPE html><html><body>")
 	fmt.Fprintf(w, "Instance = %q\n", []byte(Hostnam))
 	fmt.Fprintf(w, "Host = %q\n", r.Host)
 	fmt.Fprintf(w, "RemoteAddr = %q\n\n", r.RemoteAddr)
@@ -37,4 +38,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Form = %s\n\n", r.Form)
 	fmt.Fprintf(w, "\n\n")
 	fmt.Fprintf(w, "Body = %s\n\n", r.Body)
+	fmt.Fprintf(w, "</body></html>")
 }
